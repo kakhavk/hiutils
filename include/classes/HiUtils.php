@@ -37,6 +37,7 @@ class HiUtils{
     
 		$valueType='string';
 		$defaultValue=null;
+		if(!is_array($options)) $options=(array) $options;
 		
 		if(!is_null($value)) $value=trim($value);
 		
