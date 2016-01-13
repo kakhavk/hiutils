@@ -5,190 +5,84 @@
 
 class HiUtils{
 
-    function decodeStr($str){
+    function decodeStr($str, $options=array()){
         if(trim($str) !== ""){
-            //if (!get_magic_quotes_gpc()) {
-            $str = stripslashes($str);
-            $str = htmlspecialchars_decode($str);
-            //}
+            if(isset($options['stripslashes']) && $options['stripslashes']===true)
+				$str = stripslashes($str);
+			if(isset($options['htmlspecialchars_decode']) && $options['htmlspecialchars_decode']===true)
+				$str = htmlspecialchars_decode($str);
+            
             return trim($str);
         }
-        return $str;
+        return null;
     }
 
-    function encodeStr($str, $addsqlquotes=1, $htmlspecialchars=0) {
+    function encodeStr($str, $options=array()) {
 
         $str=trim($str);
         if($str!=="") {
-            if (!get_magic_quotes_gpc()) {
-                $str=addslashes($str);
-            }
-            if($htmlspecialchars==1) $str=htmlspecialchars($str);
-
-            return trim($str);
+            
+			if(isset($options['addslashes']) && $options['addslashes']===true)
+				$str = addslashes($str);
+			if(isset($options['htmlspecialchars']) && $options['htmlspecialchars']===true)
+				$str = htmlspecialchars($str);
+				
+            return $str;
         }
-        return "NULL";
+        return NULL;
     }
-    function fcUpper($langid = 1, $str = ""){
-        if($langid != 1){
-            $str = ucfirst($str);
-        }
-
-        return trim($str);
-    }
-
-    function parsStrNull($str){
-        if($str !== ""){
-            if(!get_magic_quotes_gpc()){
-                $str = addslashes($str);
-            }
-            return trim("'" . $str . "'");
-        }
-        return "NULL";
-    }
-
-    function parsValueNull($value, $checkQuotes=true){
-		$str=trim($value);
+    
+   
+    function parseValue($value, $options=array()){
+    
+		$valueType='string';
+		$defaultValue=null;
 		
-		if($str !== "" && $str!==''){
-			return $str;
+		if(!is_null($value)) $value=trim($value);
+		
+		if(isset($options['type'])) $type=$options['type'];
+		if(isset($options['defaultValue'])) $defaultValue=$options['defaultValue'];
+		
+		if(isset($options['nozero']) && $options['nozero']===true && $value=='0'){
+			return $defaultValue;					
 		}
-        return "NULL";
+		
+		if($type=='string'){
+			if($value !== ""){				
+				if(isset($options['addslashes']) && $options['addslashes']===true) $value=addslashes($value);
+				return $value;
+			}
+		}elseif($type=='int'){			
+			if(trim($value) !== "" && $value !=0) return $value;
+		}elseif($type=='double'){			
+			if(trim($value)!=="" && doubleval($value)!=0.00) return $value;
+		}
+		
+		return $defaultValue;
     }
+
     
-    function parsStrNoZeroNull($str) {
-        if($str!=="" && (int)$str!=0) {
-            if (!get_magic_quotes_gpc()) {
-                $str=addslashes($str);
-            }
-            return trim("'".$str."'");
+    function requestType($req, $type){
+		if($type=='string'){
+			if(isset($_REQUEST[$req]) && !is_null($_REQUEST[$req]) && trim($_REQUEST[$req]) !== '') return true;
+        }elseif($type=='int'){
+			if(isset($_REQUEST[$req]) && !is_null($_REQUEST[$req]) && trim($_REQUEST[$req]) !== '' && intval($_REQUEST[$req]) != 0) return true;
+        }elseif($type=='double'){
+			if(isset($_REQUEST[$req]) && trim($_REQUEST[$req]) !== '' && doubleval(str_replace(',', '.', $_REQUEST[$req])) != 0) return true;
         }
-        return "NULL";
-    }
-    function parsIntNull($str){
-        if(trim($str) !== "" && $str != 0) return $str;
-        return "NULL";
-    }
-
-    function parsIntZero($digit){
-        if(trim($digit) !== "" && $digit != 0) return $digit;
-        return 0;
-    }
-
-    function parsDoubleNull($digit) {
-        if(trim($digit)!=="" && doubleval($digit)!=0.00) return $digit;
-        return "NULL";
-    } 
-
-    function parsDoubleZero($digit){
-        if(trim($digit) !== "" && doubleval($digit) != 0.00) return $digit;
-        return 0.00;
-    }
-
-    function parsNullInt($val){
-        if(trim($val) == "" || is_null($val)) return 0;
-        return $val;
-    }
-
-    function parsBooleanStr($str){
-    	if(isset($str) && trim($str)!=="") return "'".$str."'";    	
-    	return "'f'";
-    }
-    
-    function reqInt($req){
-        if(isset($_REQUEST[$req]) && !is_null($_REQUEST[$req]) && trim($_REQUEST[$req]) !== '' && intval($_REQUEST[$req]) != 0) return true;
         return false;
     }
 
-    function reqTxt($req){
-        if(isset($_REQUEST[$req]) && !is_null($_REQUEST[$req]) && trim($_REQUEST[$req]) !== '') return true;
-        return false;
-    }
-
-    function reqPostTxt($req){
-        if(isset($_POST[$req]) && trim($_POST[$req]) !== '') return true;
-        return false;
-    }
-
-    function reqPostInt($req){
-        if(isset($_POST[$req]) && trim($_POST[$req]) !== '' && intval($_POST[$req]) != 0) return true;
-        return false;
-    }
-
-    function reqPostDbl($req){
-        if(isset($_POST[$req]) && trim($_POST[$req]) !== '' && doubleval(str_replace(',', '.', $_POST[$req])) != 0) return true;
-        return false;
-    }
-
-    function retShrnkedStr($str, $n, $elmntid = "", $showHide = 0){
-        $str = str_replace('&nbsp;', ' ', $str = "");
-        $expl_description = explode(" ", $this->decodeStr($str));
-
-        $expl_count = count($expl_description);
-        $ret = "";
-        if($expl_count > $n){
-            for($i = 0; $i <= $n; $i++){
-                $ret .= " " . $expl_description[$i];
-            }
-            if($showHide != 0 && trim($elmntid) !== ""){
-                $ret .= "<span class=\"cursr\" onclick=\"showHideContnt('" . $elmntid . "')\"> ...</span>";
-            }else{
-                $ret .= " ...";
-            }
-        }else{
-            $ret = $str;
-        }
-
-        return $ret;
-    }
-
-    function intToEmpty($digit){
-        if(intval($digit) == 0) return "";
-        return $digit;
-    }
-
-    function dblToEmpty($digit){
-        if(doubleval($digit) == 0) return "";
-        return $digit;
-    }
-
-    function zeroToDbl($digit){
-        if(doubleval($digit) == 0) return "0.00";
-        return $digit;
-    }
-
-    function prserStr($erStr){
-        $errorStr = trim($erStr);
-
-        if(substr($errorStr, 0, 6) == "<br />") $errorStr = substr($errorStr, 6);
-        elseif(substr($errorStr, 0, 5) == "<br/>") $errorStr = substr($errorStr, 5);
-        elseif(substr($errorStr, 0, 4) == "<br>") $errorStr = substr($errorStr, 4);
-        return $errorStr;
-    }
-
-    function filPcode($str, $rpt, $filarg = 0){
-        $ret = "";
-        $strln = strlen($str);
-        $rpt = $rpt - $strln;
-        $ret = str_repeat($filarg, $rpt) . "" . $str;
-        return $ret;
-    }
-
-    function submtFrmHiSrvside($jsfrmfnct){
-
-        echo "<script type=\"text/javascript\">" . " " . $jsfrmfnct . " " . "</script>";
-    }
-
-    function retRndChars($charlength){
+    function randChars($charlength){
 
         $chars = '123456789abcdfghjkmnpqrstvwxyz';
         $ret = "";
-        $rndstr = "";
+        $randstr = "";
         $i = 0;
 
         while($i < $charlength){
-            $rndstr = mt_rand(0, strlen($chars) - 1);
-            $ret .= substr($chars, $rndstr, 1);
+            $randstr = mt_rand(0, strlen($chars) - 1);
+            $ret .= substr($chars, $randstr, 1);
             $i++;
         }
 
@@ -305,21 +199,14 @@ class HiUtils{
         return trim($browserType);
     }
 
-    function chckInArray($chckArray, $chckVal, $id = "id"){
-        $chckArrayCnt = count($chckArray);
-        for($i = 0; $i < $chckArrayCnt; $i++){
-            if($chckArray[$i][$id] == $chckVal) return 1;
+    function checkInArray($check, $chckVal, $id = "id"){
+        $checkCnt = count($check);
+        for($i = 0; $i < $checkCnt; $i++){
+            if($check[$i][$id] == $chckVal) return 1;
         }
         return 0;
     }
 
-    function retForeachVariables($vrbls){
-        $ret = "";
-        foreach($vrbls as $k => $v){
-            $ret .= "<div style=\"clear:left; background-color:#cccccc; color:#000000;\">" . $k . " => " . $v . "</div>";
-        }
-        return $ret;
-    }
     function createZip($file, $fileName, $destination = '',$overwrite = false) {
 
         if(file_exists($destination) && !$overwrite) { return false; }
@@ -339,6 +226,7 @@ class HiUtils{
         }
         return true;
     }
+    
     function downFile($file, $fileNm, $ctype) {        
         if (file_exists($file)) {
             if(ob_get_level()!==0) ob_clean();
@@ -353,9 +241,9 @@ class HiUtils{
 
     }
     
-    function retRequestMethod(){
+    function requestMethod(){
     	if(isset($_SERVER['REQUEST_METHOD'])) return strtoupper(trim($_SERVER['REQUEST_METHOD']));
-    	return "";
+    	return null;
     }
 
 }
