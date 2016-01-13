@@ -227,13 +227,13 @@ class HiUtils{
         return true;
     }
     
-    function downFile($file, $fileNm, $ctype) {        
+    function downFile($file, $fileName, $ctype) {        
         if (file_exists($file)) {
             if(ob_get_level()!==0) ob_clean();
             header('Content-Description: File Transfer');
             header('Content-Type: '.$ctype.'');
             header('Content-Length: ' . filesize($file));
-            header('Content-Disposition: attachment; filename=' . $fileNm);
+            header('Content-Disposition: attachment; filename=' . $fileName);
             readfile($file);
             unlink($file);
             exit;
