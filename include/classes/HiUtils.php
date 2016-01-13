@@ -43,7 +43,7 @@ class HiUtils{
 		if(isset($options['type'])) $type=$options['type'];
 		if(isset($options['defaultValue'])) $defaultValue=$options['defaultValue'];
 		
-		if(isset($options['nozero']) && $options['nozero']===true && $value=='0'){
+		if(isset($options['nozero']) && $options['nozero']===true && $value==='0'){
 			return $defaultValue;					
 		}
 		
@@ -182,7 +182,7 @@ class HiUtils{
 
     function checkBrowser(){
 
-         $browser=$_SERVER['HTTP_USER_AGENT'];
+        $browser=$_SERVER['HTTP_USER_AGENT'];
         $browserVersion=array();
         $browserType="";
 
