@@ -228,7 +228,7 @@ class HiUtils{
         return true;
     }
     
-    function downFile($file, $fileName, $ctype) {        
+    function downFile($file, $fileName, $ctype) {
         if (file_exists($file)) {
             if(ob_get_level()!==0) ob_clean();
             header('Content-Description: File Transfer');
