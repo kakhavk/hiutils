@@ -1,7 +1,7 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.1
+@version 0.2
 @license MIT
 */
 
@@ -140,6 +140,12 @@ class Utils{
     	if(!empty($_SERVER['REQUEST_METHOD'])) return strtoupper($_SERVER['REQUEST_METHOD']);
     	return null;
     }
+
+	/* Unlike standart empty function isEmpty also assigns true if value contains whitespaces, newlines, tabs */
+	public static function isEmpty($value){
+		if(!isset($value) || empty($value) || trim($value)=='') return true;
+		return false;
+	}
 
 }
 
