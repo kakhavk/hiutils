@@ -1,7 +1,7 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.2
+@version 0.2.1
 @license MIT
 */
 
@@ -142,8 +142,8 @@ class Utils{
     }
 
 	/* Unlike standart empty function isEmpty also assigns true if value contains whitespaces, newlines, tabs */
-	public static function isEmpty($value){
-		if(!isset($value) || empty($value) || trim($value)=='') return true;
+	public static function isEmpty(&$value){
+		if(empty($value) || trim($value)=='') return true;
 		return false;
 	}
 
