@@ -143,7 +143,7 @@ class Utils{
 
 	/* Unlike standart empty function isEmpty also assigns true if value contains whitespaces, newlines, tabs */
 	public static function isEmpty(&$value){
-		if(empty($value) || trim($value)=='') return true;
+		if(empty($value) || (!is_array($value) && !is_object($value) && trim($value)=="")) return true;
 		return false;
 	}
 
