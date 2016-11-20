@@ -10,23 +10,23 @@ namespace Hi;
 class Utils{
 	/* Parameters to use in functions */
 	private static $params=array(
-		'htmlspecialchars_decode'=>true
+		'htmlspecialchars_decode'=>true,
 		'stripslashes'=>true,
 		'addslashes'=>true,
 		'htmlspecialchars'=>true
 	);
 	
 	/* Set or change value of one or more parameters */
-	public static setParams($params){
+	public static function setParams($params){
 		if(!empty($params) && is_array($params) && count($params)!=0){
 			foreach($params as $key => $value){
-				self::$params[$key]=>$value;
+				self::$params[$key]=$value;
 			}
 		}
 	}
    /* Set or change value of one parameter */
    public static function setParam($key, $value){
-		if(!empty($key)) self::$params[$key]=>$value;
+		if(!empty($key)) self::$params[$key]=$value;
    }
 
    /* Decode string by which encoded by function encode  */
