@@ -148,17 +148,17 @@ class Utils{
 	
 	/* alternative of var_dump with pre or json formating */
 	function vardump($var, $task=null){
-	if(!empty($task)){
-		if($task=='pre'){
-			echo '<div><pre>'.var_dump($var).'</pre></div>';			
-		}elseif($task=='json'){
-			$json = json_encode((array)$var );
-			echo($json);
+		if(!empty($task)){
+			if($task=='pre'){
+				echo '<div><pre>'.var_dump($var).'</pre></div>';			
+			}elseif($task=='json'){
+				$json = json_encode((array)$var );
+				echo($json);
+			}
+		}else{
+			var_dump($var);		
 		}
-	}else{
-		var_dump($var);		
 	}
-}
 }
 
 ?>
