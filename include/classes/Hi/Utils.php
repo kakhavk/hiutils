@@ -150,7 +150,9 @@ class Utils{
 	function vardump($var, $task=null){
 		if(!empty($task)){
 			if($task=='pre'){
-				echo '<div><pre>'.var_dump($var).'</pre></div>';			
+				echo '<div><pre>';
+				var_dump($var);
+				echo '</pre></div>';			
 			}elseif($task=='json'){
 				$json = json_encode((array)$var );
 				echo($json);
