@@ -1,10 +1,9 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.2.1
+@version 0.2.2
 @license MIT
 */
-
 
 namespace Hi;
 
@@ -146,7 +145,20 @@ class Utils{
 		if(empty($value) || (!is_array($value) && !is_object($value) && trim($value)=="")) return true;
 		return false;
 	}
-
+	
+	/* alternative of var_dump with pre or json formating */
+	function vardump($var, $task=null){
+	if(!empty($task)){
+		if($task=='pre'){
+			echo '<div><pre>'.var_dump($var).'</pre></div>';			
+		}elseif($task=='json'){
+			$json = json_encode((array)$var );
+			echo($json);
+		}
+	}else{
+		var_dump($var);		
+	}
+}
 }
 
 ?>

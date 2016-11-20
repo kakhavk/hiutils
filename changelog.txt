@@ -1,3 +1,7 @@
+Version 0.2.2
+added function vardump
+
+
 Version 0.2.1
 
 fixed to avoid warning message notification in function isEmpty
