@@ -134,18 +134,18 @@ class Utils{
         }
     }
    
-   /* Check what request method is POST, GET ... */
-   public static function requestMethod(){
-    	if(!empty($_SERVER['REQUEST_METHOD'])) return strtoupper($_SERVER['REQUEST_METHOD']);
-    	return null;
-    }
+	/* Check what request method is POST, GET ... */
+	public static function requestMethod(){
+		if(!empty($_SERVER['REQUEST_METHOD'])) return strtoupper($_SERVER['REQUEST_METHOD']);
+		return null;
+	}
 
 	/* Unlike standart empty function isEmpty also assigns true if value contains whitespaces, newlines, tabs */
 	public static function isEmpty(&$value){
 		if(empty($value) || (!is_array($value) && !is_object($value) && trim($value)=="")) return true;
 		return false;
 	}
-	
+
 	/* alternative of var_dump with pre or json formating */
 	function vardump($var, $task=null){
 		if(!empty($task)){
