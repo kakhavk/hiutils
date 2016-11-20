@@ -1,3 +1,9 @@
+Version 0.2.3 for Utils class
+added alternative functions for var_dump and empty
+Version 0.1 for functions.php
+added alternative functions for var_dump and empty
+
+
 Version 0.2.2
 added function vardump
 
