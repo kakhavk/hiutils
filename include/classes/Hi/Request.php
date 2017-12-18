@@ -1,7 +1,7 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.1
+@version 0.2
 @license MIT
 */
 
@@ -102,4 +102,23 @@ class Request{
 		}
 		return false;
 	}
+	
+	public static function exists($name, $type){
+        $item=null;
+        if(isset(self::$request[$name])){
+            if(!is_null($type)){
+                switch($type){
+                    case 'int':
+                        return self::isInt($name);
+                    case 'double':
+                        return self::isDouble($name);
+                    case 'string':
+                        return self::isString($name);
+                }       
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 }

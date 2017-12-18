@@ -1,3 +1,8 @@
+class Request changed to version 0.2
+added method exists in Request class
+
+added class Request version 0.1
+
 Version 0.2.3 for Utils class
 added alternative functions for var_dump and empty
 Version 0.1 for functions.php
