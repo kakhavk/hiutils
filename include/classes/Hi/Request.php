@@ -1,7 +1,7 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.2
+@version 0.3
 @license MIT
 */
 
@@ -112,8 +112,10 @@ class Request{
                         return self::isInt($name);
                     case 'double':
                         return self::isDouble($name);
-                    case 'string':
-                        return self::isString($name);
+                    case 'alnum':
+                        return ctype_alnum((string)$name);
+                    case 'alpha':
+                        return ctype_alpha((string)$name);
                 }       
                 return false;
             }
