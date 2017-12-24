@@ -1,3 +1,5 @@
+added class Error version 0.1
+
 class Request changed to version 0.3
 changed type comparission in in Request class's method "exists"
 
