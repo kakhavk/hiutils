@@ -16,7 +16,7 @@ class Error{
             self::$message=array();
             self::$message[0]=Utils::encode($text);
         }
-        if($status!==false && $status!==true){
+        if($status!==false){
             self::$error=true;
         }
     }
