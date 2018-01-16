@@ -119,7 +119,7 @@ class Request{
                     case 'alpha':
                         return ctype_alpha((string)$name);
                     case 'string':
-                        return (string)$name;
+                        return true;
                 }
                 return false;
             }
