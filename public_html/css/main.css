@@ -1,0 +1,14 @@
+/*
+ Created by Kakhaber Kashmadze
+ groups all css files together
+ @version 0.1
+ @license MIT
+ 
+*/
+
+@charset "UTF-8";
+
+@import url("styles.css");
+@import url("table.css");
+@import url("bootstrap-custom.css");
+@import url("jq-ui-custom.css");

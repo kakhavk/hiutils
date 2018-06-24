@@ -1,0 +1,24 @@
+/*
+ Created by Kakhaber Kashmadze
+ @version 0.1
+ @license MIT
+*/
+
+@charset "UTF-8";
+
+.navbar-nav{
+	font-weight: bold;
+}
+
+.navbar-nav > li > button{
+	margin-top:7px !important;
+	margin-left:7px !important;
+}
+
+.input-group {
+	z-index: 1;
+}
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
