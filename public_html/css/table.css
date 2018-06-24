@@ -1,0 +1,104 @@
+/*
+ Created by Kakhaber Kashmadze
+ @version 0.1
+ @license MIT
+*/
+@charset "UTF-8";
+
+.div-table {
+	display: table;
+	border: 1px solid #CCCCCC;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.div-table-row {
+	display: table-row;
+	background-color: #FFFFFF;
+}
+
+.div-table-caption-col {
+	display: table-cell;
+	padding: 10px;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
+	vertical-align: middle;
+	text-align: center;
+	font-weight: bold;
+	background-color: #EBEBEB;
+}
+
+.div-table-caption-col-r {
+	display: table-cell;
+	padding: 5px;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
+	vertical-align: middle;
+	text-align: right;
+	font-weight: bold;
+	background-color: #EBEBEB;
+}
+
+.div-table-col {
+	display: table-cell;
+	padding-top: 2px;
+	padding-right: 10px;
+	padding-bottom: 2px;
+	padding-left: 10px;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
+	text-align: left;
+}
+
+.div-table-row:hover {
+	background-color: #E7ECF0;
+}
+
+.row-active {
+	background-color: #DCF9C5;
+}
+
+.col-date {
+	width: 170px;
+}
+
+.col-datetime {
+	width: 270px;
+}
+
+.col-small {
+	width: 100px;
+}
+
+.col-medium {
+	width: 150px;
+}
+
+.col-large {
+	width: 200px;
+}
+
+.col-edit, .col-info {
+	width: 48px !important;
+	cursor: pointer;
+	text-align: center;
+	color: #b1b1b1;
+}
+
+.col-info:hover, .col-edit:hover {
+	background-color: #F9F1C7 !important;
+	color: #145586;
+}
+
+.row-not-active {
+	background-color: #F1F1F1 !important;
+	color: #A9A9A9 !important;
+}
+
+.first-col{
+	border-left:0 !important;
+}
+
+.last-row .div-table-col{
+	border-bottom:0 !important;
+}

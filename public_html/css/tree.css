@@ -1,0 +1,43 @@
+/*
+ Created by Kakhaber Kashmadze
+ @version 0.1
+ @license MIT
+*/
+
+@charset "UTF-8";
+
+.category-wrapper {
+	margin: auto;
+	border: 0 solid #CCCCCC;
+	width: 700px;
+}
+
+.div-table-col {
+	padding: 10px 15px 10px 15px;
+}
+
+.name-column {
+	min-width: 400px;
+}
+
+.fiald-name {
+	display: inline;
+	float: left;
+}
+
+.field-action-container{
+	float:right;
+	width:20%;
+}
+
+.div-table-caption-col{
+	background-color: #d5dee5;
+}
+
+.div-table-row:hover{
+	background-color: #fffdee;	
+}
+
+.bg-active{
+	background-color: #DCF9C5 !important;
+}
