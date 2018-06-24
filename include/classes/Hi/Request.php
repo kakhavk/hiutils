@@ -1,7 +1,7 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.4
+@version 0.5
 @license MIT
 */
 
@@ -60,7 +60,8 @@ class Request{
         $item=null;
         if(isset(self::$request[$name])){
             $item=self::$request[$name];
-            if(ctype_digit((string)$item)===true){
+
+            if(isset($item) && is_int((int)$item)===true && ctype_digit((string)str_replace('-','', $item))===true){
                 return true;
             }
         }
@@ -105,6 +106,14 @@ class Request{
         return false;
     }
     
+    public static function isEmail($name){
+        if(isset(self::$request[$name]) && self::isString(isset(self::$request[$name]))){
+            if(filter_var($request[$name], FILTER_VALIDATE_EMAIL)===true){
+                return true;
+            }
+        }
+        return false;
+    }
     public static function exists($name, $type){
         $item=null;
         if(isset(self::$request[$name])){
