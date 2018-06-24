@@ -6,8 +6,6 @@
 */
 namespace Hi;
 
-use Hi\Utils;
-
 class Error{
 
     private static $error=false;

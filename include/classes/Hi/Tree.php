@@ -7,8 +7,6 @@
 
 namespace Hi;
 
-use Shared\Request;
-
 class Tree{
    public $tree=array(
         'row'=>array(),
