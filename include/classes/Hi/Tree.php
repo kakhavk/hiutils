@@ -5,7 +5,7 @@
   @license MIT
 */
 
-namespace Hi;
+use Hi\Request;
 
 class Tree{
    public $tree=array(
