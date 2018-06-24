@@ -1,7 +1,7 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.1
+@version 0.2
 @license MIT
 */
 namespace Hi;
@@ -23,7 +23,7 @@ class Error{
     
     public static function addMessage($text, $status){
         if(!empty($text)){
-            self::$message[]=Utils::encode($text);;
+            self::$message[]=Utils::encode($text);
         }
         if($status!==false && self::$error!==true){
             self::$error=true;
@@ -42,15 +42,15 @@ class Error{
         return self::$error;
     }
     
-    public function showMessage($formatted){
+    public static function showMessage($formatted){
         $message=null;
-        if($formatted!==true){
+        if($formatted===false){
             $message="";                 
             for($i=0; $i<count(self::$message); $i++){
                 $message.=Utils::decode(self::$message[$i])."\n";
             }            
         }else{
-            $message="<ul>";
+            $message="<ul class=\"alert alert-danger\">";
             for($i=0; $i<count(self::$message); $i++){
                 $message.="<li>".Utils::decode(self::$message[$i])."</li>";
             }
