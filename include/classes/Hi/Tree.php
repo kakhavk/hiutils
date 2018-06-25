@@ -1,7 +1,7 @@
 <?php
 /*
  * Created by Kakhaber Kashmadze
-  @version 0.1
+  @version 0.2
   @license MIT
 */
 
@@ -9,7 +9,7 @@ use Hi\Request;
 
 class Tree{
    public $tree=array(
-        'row'=>array(),
+        'data'=>array(),
         'items'=>array(
             'padding-left'=>10,
             'padding-increment'=>10,
@@ -22,7 +22,7 @@ class Tree{
     
     public function resetTree(){
         $this->tree=array(
-            'row'=>array(),
+            'data'=>array(),
             'items'=>array(
                 'padding-left'=>10,
                 'padding-increment'=>10,
@@ -32,7 +32,7 @@ class Tree{
         );
     }
     
-	public function generateTree($rows, $parentid, $params=array()){
+	public function generateTree($data, $parentid, $params=array()){
 
         $incrementType='padding-left';
         $increment=$this->tree['items']['padding-increment'];
@@ -66,52 +66,49 @@ class Tree{
         }
         
         
-        for($i=0; $i<count($rows); $i++){
+        for($i=0; $i<count($data); $i++){
             
-            if($rows[$i]['parentid']==$parentid){
+            if($data[$i]['parentid']==$parentid){
                 
                 
                 if(isset($paramsLocal['fields']['active']) && $paramsLocal['fields']['active']===true){
-                    if($rows[$i]['active']===false){
+                    if($data[$i]['active']===false){
                         continue;
                     }
                 }
                 
                 if(!empty($paramsLocal['fields']['id_not_in'])){
-                    if(in_array($rows[$i]['id'], $paramsLocal['fields']['id_not_in'])){
+                    if(in_array($data[$i]['id'], $paramsLocal['fields']['id_not_in'])){
                         continue;
                     }
                 }
                 
                 
                 if($paramsLocal['type']=='table'){
-                    $this->tree['row'][]='<a name="'.$rows[$i]['id'].'"></a><div class="div-table-row'.((Request::exists('id', 'int')===true && Request::query('id')==$rows[$i]['id'])?' bg-active':'').'">
-                                <div class="div-table-col name-column'.(($rows[$i]['includeitem']==1)?' bold title-bg':'').'" style="padding-left:'.$this->tree['items']['padding-left'].'px;">
-                                    <a href="">'.$rows[$i]['name'].'</a>
-                                    '.(($rows[$i]['includeitem']==1)?'<a href="'.HTTP_HOST.'/category/edit/p/'.$rows[$i]['id'].'" class="right"><span class="fa fa-file"></span></a>':'').'
-                                </div>
+                    $this->tree['data'][]='<div class="div-table-row">
+                                <div class="div-table-col" style="padding-left:'.$this->tree['items']['padding-left'].'px;">'.$data[$i]['name'].'</div>
                             </div>';
                 }elseif($paramsLocal['type']=='select'){
                     $increment=$this->tree['items']['increment'];
                     $incrementType='repeat';
                     
-                    $this->tree['row'][]='<option value="'.$rows[$i]['id'].'"'.((isset($paramsLocal['fields']['parentid']) && $paramsLocal['fields']['parentid']==$rows[$i]['id'])?' selected':'').''.((isset($paramsLocal['fields']['disableParent']) && $paramsLocal['fields']['disableParent']===true && $rows[$i]['includeitem']===true)?' disabled="disabled"':'').'>'.str_repeat('&nbsp;', $this->tree['items']['repeat']).$rows[$i]['name'].'</option>';
+                    $this->tree['data'][]='<option value="'.$data[$i]['id'].'"'.((isset($paramsLocal['fields']['parentid']) && $paramsLocal['fields']['parentid']==$data[$i]['id'])?' selected':'').''.((isset($paramsLocal['fields']['disableParent']) && $paramsLocal['fields']['disableParent']===true && $data[$i]['includeitem']===true)?' disabled="disabled"':'').'>'.str_repeat('&nbsp;', $this->tree['items']['repeat']).$data[$i]['name'].'</option>';
                 }elseif($paramsLocal['type']=='array'){
-                    $this->tree['row'][]=$rows[$i];
+                    $this->tree['data'][]=$data[$i];
                 }
                 
                 if($paramsLocal['type']=='array'){
-                    $this->generateTree($rows, $rows[$i]['id'], $paramsLocal);
+                    $this->generateTree($data, $data[$i]['id'], $paramsLocal);
                 }else{
                     $this->tree['items'][$incrementType]+=$increment;
-                    $this->generateTree($rows, $rows[$i]['id'], $paramsLocal);
+                    $this->generateTree($data, $data[$i]['id'], $paramsLocal);
                     $this->tree['items'][$incrementType]-=$increment;
                 }
             }
         }
     }
     
-    public function getTree($rows, $parentid, $params=array()){
+    public function getTree($data, $parentid, $params=array()){
         $tree=array();
         $unsetTree=true;
         $paramsLocal=array(
@@ -148,7 +145,7 @@ class Tree{
             $paramsLocal['fields']['disableParent']=$params['fields']['disableParent'];
         }
         
-        $this->generateTree($rows, $parentid, $paramsLocal);
+        $this->generateTree($data, $parentid, $paramsLocal);
         $tree=$this->tree;
         
         if($unsetTree===true){
