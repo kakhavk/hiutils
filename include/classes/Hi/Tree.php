@@ -1,7 +1,7 @@
 <?php
 /*
  * Created by Kakhaber Kashmadze
-  @version 0.2
+  @version 0.3
   @license MIT
 */
 
@@ -39,32 +39,37 @@ class Tree{
         
         $paramsLocal=array(
             'type'=>'table',
+            'actionType'=>null,
             'fields'=>array(
                 'parentid'=>null,
                 'active'=>null,
                 'id_not_in'=>array()
+            ),
+            'permission'=>array(
+                'edit'=>true,
+                'delete'=>false
             )
         );
         if(isset($params['type'])){
             $paramsLocal['type']=$params['type'];
         }
         
-        if(isset($params['fields']['parentid'])){
-            $paramsLocal['fields']['parentid']=$params['fields']['parentid'];
+        if(isset($params['fields'])){
+            foreach ($paramsLocal['fields'] as $k => $v){
+                if(isset($params['fields'][$k])){
+                    $paramsLocal['fields'][$k]=$params['fields'][$k];
+                }
+            }
         }
         
-        if(isset($params['fields']['active'])){
-            $paramsLocal['fields']['active']=$params['fields']['active'];
-        }
         
-        if(isset($params['fields']['id_not_in'])){
-            $paramsLocal['fields']['id_not_in']=$params['fields']['id_not_in'];
+        if(isset($params['permission'])){
+            foreach ($paramsLocal['permission'] as $k => $v){
+                if(isset($params['permission'][$k])){
+                    $paramsLocal['permission'][$k]=$params['permission'][$k];
+                }
+            }
         }
-        
-        if(isset($params['fields']['disableParent'])){
-            $paramsLocal['fields']['disableParent']=$params['fields']['disableParent'];
-        }
-        
         
         for($i=0; $i<count($data); $i++){
             
@@ -83,10 +88,34 @@ class Tree{
                     }
                 }
                 
+                $tableRowClass='div-table-row';
+                $tableColumnClass='div-table-col';
+                $editUrl="#";
                 
                 if($paramsLocal['type']=='table'){
-                    $this->tree['data'][]='<div class="div-table-row">
-                                <div class="div-table-col" style="padding-left:'.$this->tree['items']['padding-left'].'px;">'.$data[$i]['name'].'</div>
+                
+					if(isset($paramsLocal['actionType'])){
+
+                        if($paramsLocal['actionType']=='category'){
+                            $tableRowClass='div-table-row';
+                            $tableColumnClass='div-table-col name-column';
+                            if($paramsLocal['permission']['edit']===true){
+                                $editUrl='http://....editUrlhere';
+                            }
+                            
+                        }elseif($paramsLocal['actionType']=='menu'){
+                            
+                            $tableRowClass='div-table-menu-row';
+                            $tableColumnClass='div-table-menu-col name-column';
+                            
+                            if($paramsLocal['permission']['edit']===true){
+                                $editUrl='http://....editUrlhere';
+                            }
+                        }
+                    }
+                
+                    $this->tree['data'][]='<div class="'.$tableRowClass.'">
+                                <div class="'.$tableColumnClass.'" style="padding-left:'.$this->tree['items']['padding-left'].'px;">'.$data[$i]['name'].'</div>
                             </div>';
                 }elseif($paramsLocal['type']=='select'){
                     $increment=$this->tree['items']['increment'];
@@ -111,41 +140,12 @@ class Tree{
     public function getTree($data, $parentid, $params=array()){
         $tree=array();
         $unsetTree=true;
-        $paramsLocal=array(
-            'type'=>'array',
-            'fields'=>array(
-                'parentid'=>null,
-                'active'=>null,
-                'id_not_in'=>array(),
-                'disableParent'=>false
-            )
-        );
-        
+
         if(isset($params['unsetTree'])){
             $unsetTree=$params['unsetTree'];
         }
         
-        if(isset($params['type'])){
-            $paramsLocal['type']=$params['type'];
-        }
-        
-        if(isset($params['fields']['parentid'])){
-            $paramsLocal['fields']['parentid']=$params['fields']['parentid'];
-        }
-        
-        if(isset($params['fields']['active'])){
-            $paramsLocal['fields']['active']=$params['fields']['active'];
-        }
-        
-        if(isset($params['fields']['id_not_in'])){
-            $paramsLocal['fields']['id_not_in']=$params['fields']['id_not_in'];
-        }
-        
-        if(isset($params['fields']['disableParent'])){
-            $paramsLocal['fields']['disableParent']=$params['fields']['disableParent'];
-        }
-        
-        $this->generateTree($data, $parentid, $paramsLocal);
+        $this->generateTree($data, $parentid, $params);
         $tree=$this->tree;
         
         if($unsetTree===true){
