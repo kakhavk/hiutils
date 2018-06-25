@@ -6,12 +6,6 @@
 
 @charset "UTF-8";
 
-.category-wrapper {
-	margin: auto;
-	border: 0 solid #CCCCCC;
-	width: 700px;
-}
-
 .div-table-col {
 	padding: 10px 15px 10px 15px;
 }
