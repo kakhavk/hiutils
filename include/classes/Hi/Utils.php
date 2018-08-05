@@ -1,7 +1,7 @@
 <?php
 /*
 * Created by Kakhaber Kashmadze
-@version 0.3
+@version 0.3.1
 @license MIT
 */
 
@@ -168,6 +168,26 @@ class Utils{
         if(empty($value) || (!is_array($value) && !is_object($value) && trim($value)=="")) return true;
         return false;
     }
+    
+    /* Check that object is empty */
+    function isEmptyObject(&$obj){
+    
+		if(null===$obj || !isset($obj)){
+			return true;
+		}
+		
+		$objStr=print_r($obj, true);
+		
+		$objStr=str_replace('(', '', $objStr);
+		$objStr=str_replace(')', '', $objStr);
+		$objStr=trim($objStr);    
+
+		if($objStr=='stdClass Object'){
+			return true;
+		}
+		
+		return false;
+	}
     
     /* alternative of var_dump with pre or json formating */
     function vardump($var, $task=null){
